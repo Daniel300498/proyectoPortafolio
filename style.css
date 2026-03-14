@@ -10,12 +10,12 @@ html{
 body{
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    background: #f5f5f5;
+    background: #e0e0e0;
 }
 
 header{  
     background: #333;
-    color: #fff;
+    color: #e0e0e0;
     text-align: center;
     display: flex;
     height: 80vh;
@@ -24,7 +24,7 @@ header{
 .hero-left{
     flex: 3;
     background: #1b1a1a;
-    color: white;
+    color: #e0e0e0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,7 +50,7 @@ header{
 .hero-left .btn{
     width: fit-content;
     padding: 10px 20px;
-    background: #a7d7ff;
+    background: #90caf9;
     color: #333;
     font-weight: bold;
     border-radius: 5px;
@@ -70,6 +70,7 @@ header{
 }
 
 #contenedor-proyectos{
+    background-color: #90caf9;
     display: flex;
 }
 
@@ -93,7 +94,7 @@ h2{
     text-align: center;
     margin: 40px 0;
     font-size: 36px;
-    color: #a7d7ff;
+    color: #000000;
 }
 
 /*selector descendiente*/
@@ -108,31 +109,183 @@ nav ul li {
 }
 /*selector de los enlaces dentro del nav*/
 nav ul li a {
-    color: #fff;
+    color: #e0e0e0;
     text-decoration: none;
     font-weight: bold;
 }
 /*selector de clase selecciona cualquier elemento que tenga class="proyecto-card"*/
 .proyecto-card{
-    border: 1px solid #ddd; 
+    border: 1px solid #e0e0e0; 
     padding: 20px;
     margin: 20px;
     border-radius: 8px; 
-    background: #fff;
+    background: #e0e0e0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .biografia h1{
     text-align: center;
     margin: 40px 0;
-    font-size: px;
+    font-size: 10px;
     color: #333;
 }
 .biografia p{
     text-align: justify;
-    margin: 0px 70px;
+    margin: 0px 40px;
 }
-/*conatco*/
+#ver-proyectos{
+    background-color: #90caf9;
+}
+#btn-tema{
+    background-color: #000000;  
+    color: white;  
+}
+#ver-mas{
+    display:none;
+}
 
+/*Experiencia laboral*/
+#experiencia{
+    padding:50px;
+    text-align:center;
+}
+
+.experiencia-wrapper{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.experiencia-carrusel{
+    display:flex;
+    overflow:hidden;
+    width:500px;
+}
+
+.experiencia-card{
+    min-width:100%;
+    background:#e0e0e0;
+    padding:20px;
+    border-radius:10px;
+    border-left:5px solid #90caf9;
+}
+
+button{
+    font-size:20px;
+    padding:10px 15px;
+    cursor:pointer;
+}
+
+/*contacto*/
+#contacto{
+    text-align: center;
+    padding: 10px 10px;
+    background-color: #90caf9;
+    border-radius: 5px;
+    margin: 10px auto;
+    max-width: 100%;
+}
+
+#contacto h2{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+#contacto p{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#contacto a{
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 18px;
+    background-color: #e0e0e0;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#contacto a:hover{
+    background-color: #42a5f5;
+    transform: scale(1.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #121212;
+        color: #e0e0e0;
+    }
+    header {
+        background: #1f1f1f;
+    }
+    h2{
+        color: #90caf9;
+    }
+    .proyecto-card {
+        background: #1e1e1e;
+        border: 1px solid #90caf9;
+        color: #e0e0e0;
+    }
+    .proyecto-card a {
+        color: #90caf9;
+    }
+    #contenedor-proyectos{
+        background-color: #555555;
+    }
+    #ver-proyectos{
+        background-color:#555555;
+        color: #e0e0e0;
+    }
+    #btn-tema{
+        background-color: #e0e0e0;
+        color: #1e1e1e;
+    }
+/*Contacto*/
+    #contacto{
+        background-color: #555555;
+        color: #e0e0e0;
+    }
+
+    #contacto a{
+        background-color: #90caf9;
+        color: black;
+    }
+
+/**/
+    /*experiencia Laboral*/
+    #experiencia{
+        padding:50px;
+        text-align:center;
+    }
+    .experiencia-wrapper{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+    }
+
+    .experiencia-carrusel{
+        display:flex;
+        overflow:hidden;
+        width:500px;
+    }
+    .experiencia-card{
+        min-width:100%;
+        background:#555555;
+        padding:20px;
+        border-radius:10px;
+        border-left:5px solid #90caf9;
+    }
+
+    button{
+        font-size:20px;
+        padding:10px 15px;
+        cursor:pointer;
+    }
+}   
 @media screen and (max-width: 600px){
     header.hero{
         flex-direction: column;
@@ -170,13 +323,12 @@ nav ul li a {
     .bibliografia h1{
         margin: 60px;
         font-size: 24px;
-
     }
     .bibliografia p{
     text-align: justify;
     margin: 0px 20px;    
     }
-     #contenedor-proyectos {
+     #contenedor-proyectos { 
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
@@ -187,6 +339,17 @@ nav ul li a {
     }
     h1 {
         font-size: 1.5em;
+    }   
+    #biografia-extra{
+        display: none;
+    }
+    #ver-mas{
+        display: block;
+        width: 60px;
+        margin: 5px auto;
+        padding: 3px 5px;
+        font-size: 10px;
+        text-align: center;
     }
 }
 
@@ -245,29 +408,17 @@ nav ul li a {
     }
     .proyecto-card {
         width: 45%;
+    }        
+    #biografia-extra{
+        display: none;
     }    
+    #ver-mas{
+        display: block;
+        width: 60px;
+        margin: 5px auto;
+        padding: 3px 5px;
+        font-size: 10px;
+        text-align: center;
+    }
 }
-@media (prefers-color-scheme: dark) {
-    body {
-        background: #121212;
-        color: #e0e0e0;
-    }
-    header {
-        background: #1f1f1f;
-    }
-    .biografia h1, .proyectos h2 {
-        color: #afd7f8;
-    }
-    .proyecto-card {
-        background: #1e1e1e;
-        border: 1px solid #a7d7ff;
-        color: #e0e0e0;
-    }
-    .proyecto-card a {
-        color: #a7d7ff;
-    }
-    #contenedor-proyectos{
-        background-color: #555555;
-    }
-}   
 

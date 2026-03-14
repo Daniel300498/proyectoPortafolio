@@ -51,10 +51,12 @@ async function cargarProyectos() {
         const contenedorProyectos = document.getElementById("contenedor-proyectos");
         contenedorProyectos.innerHTML = ""; //limpiar el contenedor antes de agregar nuevos proyectos
         proyectos.forEach(proyecto => {
+            const fecha = new Date(proyecto.updated_at);
             contenedorProyectos.innerHTML += `
                 <div class="proyecto-card">
                     <h3>${proyecto.name}</h3>  
-                    <p>${proyecto.occupattion || "Sin descripción"}</p>
+                    <p>${proyecto.description || "Sin descripción"}</p>
+                    <p style="display:none" class= "fecha">${fecha.toLocaleDateString()}</p>
                     <a href="${proyecto.html_url}" target="_blank">Ver en GitHub</a>
                 </div>
                     `;
@@ -65,50 +67,88 @@ async function cargarProyectos() {
 }
 cargarProyectos();
 
-/// modularidad controlador de interfaz
 const UI = {
     cuerpo: document.body,
     contenedor: document.getElementById("contenedor-proyectos"),
     btnTema: document.getElementById("btn-tema"),
     btnProyectos : document.getElementById("ver-proyectos"),
+    h2: document.querySelectorAll("h2"),
+    contacto: document.getElementById("contacto"),
+    /*  
+  #contacto{
+        background-color: #555555;
+        color: #e0e0e0;
+    }
+
+    #contacto a{
+        background-color: #90caf9;
+        color: black;
+    }
+*/
+     modoOscuro:false,
     alternarColor: function() {
-        const esOscuro = this.cuerpo.style.backgroundColor === "black";
-        this.cuerpo.style.backgroundColor = esOscuro ? "white" : "black";
-        this.cuerpo.style.color = esOscuro ? "black" : "white";
-        this.btnProyectos.style.backgroundColor = esOscuro ? "lightblue" : "gray";
-        this.btnProyectos.style.color = esOscuro ? "black" : "white";          // CONTENEDOR
-        this.contenedor.style.backgroundColor = esOscuro ? "lightblue" : "gray";
-       if(esOscuro){
+       //const modoOscuro = this.cuerpo.style.backgroundColor === "black";
+        this.modoOscuro = !this.modoOscuro; 
+        this.cuerpo.style.backgroundColor = this.modoOscuro ? "#e0e0e0" : "#1e1e1e";
+        this.cuerpo.style.color = this.modoOscuro ? "#1e1e1e" : "#e0e0e0";
+        this.btnProyectos.style.backgroundColor = this.modoOscuro ? "#90caf9" : "#555555";
+        this.btnProyectos.style.color = this.modoOscuro ? "#1e1e1e" : "#e0e0e0";         
+        this.btnTema.style.backgroundColor = this.modoOscuro ? "#1e1e1e" : "#e0e0e0";
+        this.btnTema.style.color = this.modoOscuro ? "#e0e0e0" : "#1e1e1e"; 
+        this.contacto.style.backgroundColor = this.modoOscuro ? "#e0e0e0" : "#555555";
+        //contenedor
+        this.contenedor.style.backgroundColor = this.modoOscuro ? "#90caf9" : "#555555";
+        this.h2.forEach((titulo) => {
+            titulo.style.color = this.modoOscuro ? "#1e1e1e" : "#90caf9";
+        });  
+        document.querySelectorAll(".proyecto-card").forEach(card => {
+            card.style.backgroundColor = this.modoOscuro ? "#ffffff" : "#1e1e1e";
+            card.style.color = this.modoOscuro ? "#1e1e1e" : "#e0e0e0";
+        });
+
+        document.querySelectorAll(".experiencia-card").forEach(card => {
+            card.style.backgroundColor = this.modoOscuro ? "#ffffff" : "#555555";
+            card.style.color = this.modoOscuro ? "#1e1e1e" : "#e0e0e0";
+        });
+        if(this.modoOscuro){
             this.btnTema.textContent="Modo Oscuro";
-            this.btnTema.classList.remove("claro");
-            this.btnTema.classList.add("oscuro");
         }else{
             this.btnTema.textContent="Modo Claro";
-            this.btnTema.classList.remove("oscuro");
-            this.btnTema.classList.add("claro");
         }
+     
     },
     irAseccion: function(id) {
-        document.getElementById(id).scrollIntoView({ behavior: "smooth" }); }
- 
-};
-UI.btnTema.addEventListener("click", () => UI.alternarColor());
-UI.btnProyectos.addEventListener("click",() => UI.irAseccion("proyectos"));
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" }); 
+    }};
 
-//contacto
-const botonContacto = document.getElementById("btn-contacto");
-const caja = document.getElementById("caja-contacto");
-const cerrar = document.getElementById("cerrar");
+botonTema.addEventListener("click", () => UI.alternarColor());
 
-botonContacto.addEventListener("click", function(e){
-    e.preventDefault();
-    caja.style.display = "block";
-});
+// poner boton segun el contexto
+const temaSistema = window.matchMedia("(prefers-color-scheme:dark)");
+function actualizarTextBoton(){
+    if(temaSistema.matches){
+        UI.btnTema.textContent = "Modo Claro";
+        UI.modoOscuro= false;
+    }else {
+        UI.btnTema.textContent = "Modo Oscuro";
+        UI.modoOscuro = true;
+    }
+}
+//
+ const btnVerMas= document.getElementById("ver-mas");
+ const biografiaExtra = document.getElementById("biografia-extra");
+ btnVerMas.addEventListener("click", ()=>{
+    if(biografiaExtra.style.display === "none"){
+        biografiaExtra.style.display= "inline";
+        btnVerMas.textContent= "Ver menos";
+    }else{
+        biografiaExtra.style.display = "none";
+        btnVerMas.textContent= "Ver mas";
+    }
+ });
 
-cerrar.addEventListener("click", function(){
-    caja.style.display = "none";
-});
-
+actualizarTextBoton();
+temaSistema.addEventListener("change", actualizarTextBoton);
 //local storage para guardar preferencias del usuario
 function guardartema(color){
     localStorage.setItem("temaPreferido",color);
@@ -118,13 +158,50 @@ if(temaGuardado){
     cuerpoPagina.style.backgroundColor=temaGuardado;
     cuerpoPagina.style.color = temaGuardado === "black" ? "white":"black";
 }
-
 // delegacion  de  eventos: un solo listener para todo el contenedor de proyectos
 const contenedor = document.getElementById("contenedor-proyectos");
 contenedor.addEventListener("click", function(evento){
  // .target el elemento que fue clikeado .closest busca el padre mas cercano que coincida con el selector dado
     const tarjeta = evento.target.closest(".proyecto-card");
     if(tarjeta){
-        alert ("Haz hecho clic en un proyecto: " + tarjeta.querySelector("h3").innerText);
+        alert ("PROYECTO: " + tarjeta.querySelector("h3").innerText + " - ULTIMA ACTUALIZACION: " + tarjeta.querySelector(".fecha").innerText);
     }
+});
+
+const boton = document.getElementById("ver-proyectos");
+const boton2=document.getElementById("btn-tema");
+const botonContacto=document.getElementById("btn-contacto");
+boton.addEventListener("mouseover", function(){
+    boton.style.filter = "brightness(40%)"; 
+});
+boton2.addEventListener("mouseover", function(){
+    boton2.style.filter = "brightness(40%)";
+});
+botonContacto.addEventListener("mouseover", function(){
+    botonContacto.style.filter = "brightness(40%)";
+});
+botonContacto.addEventListener("mouseout", function(){
+    botonContacto.style.filter = "brightness(100%)";
+});
+boton.addEventListener("mouseout", function(){
+    boton.style.filter = "brightness(100%)";
+});
+boton2.addEventListener("mouseout", function(){
+    boton2.style.filter = "brightness(100%)";
+});
+
+const carrusel = document.getElementById("carrusel-exp");
+
+document.getElementById("btn-der").addEventListener("click", () => {
+    carrusel.scrollBy({
+        left: carrusel.clientWidth,
+        behavior: "smooth"
+    });
+});
+
+document.getElementById("btn-izq").addEventListener("click", () => {
+    carrusel.scrollBy({
+        left: -carrusel.clientWidth,
+        behavior: "smooth"
+    });
 });
